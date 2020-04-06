@@ -1,0 +1,10 @@
+---
+- name: Create tmux plugin directory
+  file:
+    path: ~/.tmux/plugins
+    state: directory
+
+- name: Clone tpm plugin
+  git:
+    dest: "$HOME/.tmux/plugins/tpm"
+    repo: https://github.com/tmux-plugins/tpm

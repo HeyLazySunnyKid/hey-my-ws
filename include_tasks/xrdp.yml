@@ -1,0 +1,25 @@
+- name: Copy xrdp's startvm.sh script for i3
+  copy:
+    src: other/startwm.sh
+    dest: '~/.startwm.sh'
+    mode: 0755
+  notify: restart all xrdp
+  tags: xrdp
+
+- name: Change default wm file location to hidden
+  become: true
+  ini_file:
+    section: Globals
+    path: /etc/xrdp/sesman.ini
+    value: '.startwm.sh'
+    option: UserWindowManager
+  notify: restart all xrdp
+  tags: xrdp
+
+- name: Start and enable service xrdp
+  become: true
+  service:
+    name: xrdp
+    enabled: true
+    state: started
+  tags: xrdp

@@ -1,0 +1,8 @@
+---
+- name: Create .ssh folder
+  file:
+    path: ~/.ssh
+
+- name: Create ssh key
+  openssh_keypair:
+    path: ~/.ssh/.id_rsa

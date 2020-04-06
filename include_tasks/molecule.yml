@@ -1,0 +1,71 @@
+---
+# Install molecule in molecule virtualenv for python3 (default) and 
+# molecule in molecule2 virtualenv for python2 module tests.
+# Fix bug with fedora selinux problem in virtualenv's connect to docker
+- name: create requirements folder
+  file:
+    path: ~/.virtualenv/requirements
+    state: directory
+
+- name: create molecule venv folder
+  copy:
+    content: |
+      ansible
+      setuptools
+      molecule<3.0.0
+      docker
+      python-vagrant
+      molecule[vagrant]
+      pudb
+    dest: "~/.virtualenv/{{ item }}"
+  loop:
+    - requirements/molecule.txt
+    - requirements/molecule2.txt
+
+- name: Create molecule virtualenv with latest pip
+  pip:
+    name: pip
+    state: latest
+    virtualenv: ~/.virtualenv/molecule
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Install molecule dependencies
+  pip:
+    requirements: ~/.virtualenv/requirements/molecule.txt
+    state: latest
+    virtualenv: ~/.virtualenv/molecule
+    virtualenv_command: /usr/bin/python3 -m venv
+
+# You coudn't install other packages while pip not latest version
+- name: Create python2 molecule virtualenv
+  pip:
+    name: pip
+    state: latest
+    virtualenv: ~/.virtualenv/molecule2
+    virtualenv_command: virtualenv
+    virtualenv_python: python2.7
+
+- name: Install python2 molecule dependencies
+  pip:
+    state: latest
+    virtualenv: ~/.virtualenv/molecule2
+    virtualenv_command: virtualenv
+    virtualenv_python: python2.7
+    requirements: ~/.virtualenv/requirements/molecule2.txt
+
+- name: Link selinux to venv [bugfix]
+  # https://github.com/ansible/molecule/issues/1724
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  with_items:
+    - src: /usr/lib64/python3.7/site-packages/selinux
+      dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/selinux
+    - src: /usr/lib64/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
+      dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
+
+    - src: /usr/lib64/python2.7/site-packages/selinux
+      dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/selinux
+    - src: /usr/lib64/python2.7/site-packages/_selinux.so
+      dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/_selinux.so

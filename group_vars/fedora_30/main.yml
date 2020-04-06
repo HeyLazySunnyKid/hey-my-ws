@@ -1,0 +1,264 @@
+---
+# ANSIBLE SETTINGS: {{{
+ansible_python_interpreter: /usr/bin/python3
+# }}}
+
+# Variables from configuration files {{{
+
+pass_gpg_phrase: "{{ vault_pass_gpg_phrase }}"
+docker_users: "{{ ansible_user_id }}"
+pass_git_repos: "{{ vault_pass_git_repos }}"
+
+# }}}
+
+dans_repos:
+  file:
+    - "yum.repos.d/dans-pacur.repo"
+    - "yum.repos.d/virtualbox.repo"
+    - "yum.repos.d/freerdp-nightly.repo"
+  copr:
+    - "flatcap/neomutt"
+    - "atim/i3blocks"
+    - "jdoss/slack-repo"
+  dnf:
+    # yamllint disable rule:line-length
+    - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
+    - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
+    - "https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-{{ ansible_distribution_version }}-1.noarch.rpm"  # noqa 204
+    - "slack-repo"
+    # yamllint enable rule:line-length
+
+dans_tools:
+
+### CORE TERMINAL TOOLS: {{{
+  - name: openssh
+    include_tasks: openssh.yml
+
+  - name: ansible
+    desc: Automate configuration system
+    deps:
+      pip2: [mitogen]      # burst speed of running ansible modules
+      dnf:
+        # All module's dependensies here, because my workstation is ansible
+        # manager host
+        - expect           # expect module
+        - python2-pexpect  # expect module
+        - python3-pexpect  # expect module
+        - rsync            # synchronize module
+    config:
+      - src: ansible.cfg
+        dest: /etc/ansible/ansible.cfg
+
+  - name: zsh
+    desc: Interactive shell
+    deps: { dnf: [fontconfig, util-linux-user, ruby, gawk, git, xclip, fzf] }
+    include_tasks: zsh.yml
+    config:
+      - src: zshrc
+        dest: ~/.zshrc
+      - src: zshalias
+        dest: ~/.zshalias
+
+  - name: neovim
+    desc: Dark powered vim editor
+    deps:
+      dnf:
+        - python3-neovim
+        - yamllint      # lint tool
+        - python2-pudb  # debug python2
+        - python3-pudb  # debug python3
+        - xclip
+      pip2: [ pynvim, 'python-language-server[all]' ]
+      pip3: [ pynvim, 'python-language-server[all]' ]
+    config:
+      - src: init.vim
+        dest: ~/.config/nvim/init.vim
+
+  - name: tmux
+    desc: Terminal windows multiplexer
+    deps: { dnf: [zsh, xclip] }
+    include_tasks: tmux.yml
+    config:
+      - src: tmux.conf
+        dest: ~/.tmux.conf
+
+  - name: git
+    deps: { dnf: [neovim] }
+    config:
+      - src: gitconfig
+        dest: ~/.gitconfig
+      - src: gitexcludes
+        dest: ~/.gitexcludes
+
+  - name: pass
+    desc: Ultimate KISS password manager
+    deps:
+      dnf:
+        - expect
+        - python2-pexpect
+        - python3-pexpect
+        - gnupg2
+        - pinentry-gtk
+        - pwgen
+        - pass-otp
+    include_tasks: pass.yml
+
+  - name: st
+    desc: Simple Terminal emulator
+
+### }}}
+
+### Terminal Clients: {{{
+
+  - name: openldap-clients
+  - name: postgresql
+    decs: only psql client (because no settings for server)
+  - name: vault
+
+### }}}
+
+### Servers & Services: {{{
+  - name: xrdp
+    desc: X Remote Desckop Protocol server
+    deps: { dnf: [i3] }
+    include_tasks: xrdp.yml
+
+  # TODO: place docker.conf and daemon.json
+  # TODO: start and enable by default
+  - name: geerlingguy.docker
+    type: role
+    tag: docker
+
+  - name: VirtualBox-6.1
+    tag: virtualbox
+    desc: 'VirtualBox and Vagrant with plugins'
+    deps:
+      dnf:
+        - dkms
+        - virtualbox-guest-additions
+        - gcc
+        - make
+        - perl
+        - kernel-devel
+    include_tasks: virtualbox.yml
+
+  - name: 'https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.rpm'
+    tag: vagrant
+    include_tasks: vagrant.yml
+### }}}
+
+### X Windows Core Enviroment (i3): {{{
+  # TODO: Place wallpaper
+  - name: i3
+    desc: 'i3 window manager'
+    deps:
+      dnf:
+        - feh
+        - i3lock
+        - i3blocks
+        - rofi
+        - rofi-pass
+        - greenclip
+    config:
+      - src: i3
+        dest: ~/.config/i3/config
+
+  - name: rofi
+    dest: 'Menu for scripts'
+    config:
+      - src: rofi
+        dest: ~/.config/rofi/config
+
+  - name: i3blocks
+    desc: 'Status bar builded from blocks'
+    config:
+      - src: i3blocks
+        dest: ~/.config/i3blocks/config
+    tasks: i3blocks.yml
+
+  - name: dunst
+    desc: 'Notification manager'
+    config:
+    - src: dunstrc
+      dest: ~/.config/dunst/dunstrc
+
+  - name: 'https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm'
+    tag: 'chrome'
+    desc: 'Google Chrome web browser'
+
+  - name: mpv
+    desc: 'Video Player'
+
+  - name: pavucontrol
+    desc: 'Volume control for PulseAudio'
+
+  - name: teiler
+    desc: 'Screenshot and Screencast rofi tool'
+    deps: {dnf: [ImageMagick, imgurbash2] }
+### }}}
+
+### GUI Clients: {{{
+  - name: xfreerdp
+### }}}
+
+### GUI Tools: {{{
+  - name: wireshark
+  - name: screenkey
+    desc: 'Gtk tool for showing pressed keys'
+    deps: {dnf: [pygtk2]}
+### }}}
+
+### Conversation: {{{
+  - name: telegram-desktop
+  - name: zoom
+  - name: slack
+  - name: linphone
+### }}}
+
+### Other Tools {{{
+  - name: '@development-tools'
+    tag: develop
+  - name: java-1.8.0-openjdk-devel
+    tag: java
+
+  - name: nvchecker
+    desc: checker latest version of sources
+    type: pip3
+
+  - name: pv
+    desc: tool that show progress bars for pipes
+
+  - name: parallel
+    desc: tool that running commands in parallel
+
+  - name: jq
+    desc: tool for working with json
+
+  - name: molecule
+    desc: "Tool for test ansible roles"
+    type: none
+    deps:
+      dnf:
+        - python2-devel
+        - python3-devel
+        - virtualenv
+        - python3-libselinux
+        - python2-libselinux
+    include_tasks: molecule.yml
+
+  - name: pacur
+    desc: 'Tools for build packages and repositories for all systems'
+    type: none
+    deps: { dnf: [golang] }
+    tasks: pacur.yml
+
+  # TODO: Change on package
+  - name: packer
+    desc: 'hashicorp tool for automate images build as code'
+    type: none
+    include_tasks: packer.yml
+
+### }}}
+
+### tmp {{{
+###}}}

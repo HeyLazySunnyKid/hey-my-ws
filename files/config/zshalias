@@ -1,0 +1,23 @@
+# GENERAL: {{{
+alias edit_alias='nvim ~/.zshalias'
+alias sunvim='sudo -E nvim'
+# }}}
+
+# RDP: {{{
+function rdp(){
+    if [ -z "$1" ]; then
+        vared -p 'Host: ' -c host
+    else
+        host="$1"
+    fi
+    vared -p 'Username: ' -c username
+    xfreerdp +clipboard /v:$host /u:$username /size:100% /drive:vmshare,/data/VMShare
+}
+# }}}
+
+# taskwarrior {{{
+# End of work day (18:00)
+function eowd(){ task calc today + 18h }
+# Before dinner ( 13:00 )
+function bd(){ task calc today + 13h }
+# }}}

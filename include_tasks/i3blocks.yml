@@ -1,0 +1,6 @@
+---
+- name: Clone i3blocks-contrib
+  git:
+    dest: "$HOME/.config/i3blocks"
+    repo: https://github.com/vivien/i3blocks-contrib
+  tags: i3blocks

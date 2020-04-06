@@ -1,0 +1,42 @@
+---
+# TODO: run dein install plugins command
+- name: Remove vim-minimal
+  become: yes
+  dnf:
+    name:
+      - vim-minimal
+    state: absent
+  tags: vim
+
+- name: Create special dirs for vim
+  # This folder must be secure!! Because all files dump here
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0700
+  loop:
+    - ~/.vim
+    - ~/.vim/_backup
+    - ~/.vim/_temp
+    - ~/.vim/_undodir
+
+- name: Check is dein vim installed
+  stat:
+    path: ~/.cache/dein
+  register: stat_dein
+
+- name: Install dein vim
+  block:
+    - name: Get dein vim installer
+      get_url:
+        url: https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh 
+        dest: "/tmp/installer.sh"
+
+    - name: Run dein vim installer
+      script: /tmp/installer.sh ~/.cache/dein
+
+    - name: Remove installer
+      file:
+        path: /tmp/installer.sh
+        state: absent
+  when: stat_dein.stat.exists == False

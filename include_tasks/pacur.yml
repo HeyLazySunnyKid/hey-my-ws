@@ -1,0 +1,6 @@
+---
+- name: Download pacur
+  command: go get github.com/pacur/pacur
+  args:
+    creates: ~/go/bin/pacur
+  tags: pacur

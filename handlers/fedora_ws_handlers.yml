@@ -1,0 +1,23 @@
+---
+- name: update fonts
+  command: "fc-cache -v"
+
+- name: restart xrdp
+  become: true
+  listen: restart all xrdp
+  service:
+    name: xrdp
+    state: restarted
+
+- name: restart xrdp-sesman.service
+  become: true
+  listen: restart all xrdp
+  service:
+    name: xrdp-sesman
+    state: restarted
+
+- name: reload docker daemon
+  become: yes
+  service:
+    name: docker.service
+    state: reloaded

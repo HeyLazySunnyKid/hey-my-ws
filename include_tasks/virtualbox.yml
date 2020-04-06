@@ -1,0 +1,25 @@
+---
+- name: Uninstall old VirtualBox
+  become: yes
+  dnf:
+    name: VirtualBox-6.0
+    state: absent
+
+# After installation or upgrade system you shoud rebuild kernel headers
+- name: Check if current kernel is latest
+  shell: '[[ "$(rpm -qa kernel |sort -V |tail -n 1)" == *"$(uname -r)"* ]] '
+  register: check_kern
+  failed_when: 'check_kern.rc != 0'
+  changed_when: false
+
+- name: Check if kernel is loaded for VirtualBox
+  command: virtualbox --help
+  register: vboxhelp
+  changed_when: false
+
+- name: Config Linux Kernel for VirtualBox
+  become: yes
+  command: /sbin/vboxconfig
+  when: '"WARNING: The vboxdrv kernel module is not loaded." in vboxhelp.stdout'
+  register: vboxconfig
+  failed_when: '"vboxdrv.sh: failed" in vboxconfig.stderr' 

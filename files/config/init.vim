@@ -1,0 +1,518 @@
+" Dein.vim setup {{{
+if &compatible
+    set nocompatible
+endif
+
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('~/.cache/dein')
+    call dein#begin('~/.cache/dein')
+    call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+    " COMPLETITION: {{{
+
+        " Snippets
+        call dein#add('SirVer/ultisnips')
+        call dein#add('honza/vim-snippets')
+        call dein#add('phenomenes/ansible-snippets')
+
+        call dein#add('w0rp/ale')
+        call dein#add('Shougo/deoplete.nvim')
+
+    " }}}
+
+    " VCS: {{{
+        call dein#add('tpope/vim-fugitive')
+        call dein#add('airblade/vim-gitgutter')
+    " }}}
+
+    " EDIT TOOLS:{{{
+
+        " Easy comment code
+        call dein#add('scrooloose/nerdcommenter')
+        " Surround
+        call dein#add('tpope/vim-surround')
+        " Aligning Text by regular exprations.
+        call dein#add('godlygeek/tabular')
+        " Autocomplete brackets
+        call dein#add('jiangmiao/auto-pairs')
+
+    " }}}
+    "
+    " BEHAVIOR: {{{
+        " Better searching. Show all matches. Clean hlsearch.
+        call dein#add('haya14busa/is.vim')
+        call dein#add('haya14busa/vim-asterisk')
+        call dein#add('osyo-manga/vim-anzu')
+        " Repeat most of commands by .
+        call dein#add('tpope/vim-repeat')
+        " Integrate vim and tmux window navigation
+        call dein#add('christoomey/vim-tmux-navigator')
+        " Useful pair keybinds
+        call dein#add('tpope/vim-unimpaired')
+    " }}}
+
+    " BUILD: {{{
+        " Run build programs asynchronous
+        call dein#add('tpope/vim-dispatch')
+    " }}}
+
+    " DEBUG: {{{
+        call dein#add('SkyLeach/pudb.vim')
+    " }}}
+    "
+    " TESTS: {{{
+        call dein#add('janko-m/vim-test')
+        call dein#add('benmills/vimux')
+    " }}}
+
+    " TAGS: {{{
+        " Look on ctags file
+        call dein#add('ludovicchabant/vim-gutentags')
+    " }}}
+    "
+
+    " INTERFACE: {{{
+        " Status line
+        call dein#add('vim-airline/vim-airline')
+        call dein#add('edkolev/tmuxline.vim')
+        call dein#add('nathanaelkane/vim-indent-guides')
+        " Plugin that show key help menu
+        " TODO: add different guides
+        call dein#add('hecal3/vim-leader-guide')
+        " TagBar for file
+        call dein#add('majutsushi/tagbar')
+        " Unite all interfaces
+        call dein#add('Shougo/denite.nvim')
+        " Start page
+        call dein#add('mhinz/vim-startify')
+        " Create vim session
+        call dein#add('tpope/vim-obsession')
+        " Show undo tree
+        call dein#add('mbbill/undotree')
+        " TODO: wait when implement
+        call dein#add('Shougo/defx.nvim')
+    " }}}
+    "
+    "
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+
+    " COLORS: {{{
+        " Color theme
+        call dein#add('morhetz/gruvbox')
+        " Dictionaries for many languages
+        call dein#add('sheerun/vim-polyglot')
+        " Icons set
+        call dein#add('ryanoasis/vim-devicons')
+    " }}}
+    "
+
+    " LANGUAGE SPECIFIC: {{{
+        call dein#add('pearofducks/ansible-vim')
+    " }}}
+    "
+    " MARKDOWN: {{{
+        call dein#add('plasticboy/vim-markdown')
+        " Show vim markdown in browser, while file open
+        call dein#add('suan/vim-instant-markdown')
+    " }}}
+
+    call dein#end()
+    call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+" }}}
+
+" GENERAL SETTINGS: {{{
+
+" == Interface ==
+" set t_ut=                   " don't change backgroung in tmux
+set fillchars=diff:⣿,vert:│ " Vertical split without spaces
+set encoding=utf-8          " set encoding
+" set guifont=InconsolataForPowerline\ Nerd\ Font\ 12
+
+set number                  " Show line number
+set relativenumber          " Relative cursor line number
+set cursorline              " highlight current line
+set novisualbell            " No blinkig
+set noerrorbells            " No noise
+
+set nowrap                  " line wrapping off
+set title                   " set the title of the window in the terminal to the file
+
+set colorcolumn=80          " Color the 80th (code wrapper) column.
+set textwidth=80            " Go to next line after 80th column.
+set ruler                   " Display cursor position
+
+" == Command line settings ==
+set wildmenu                " Turn on Tab complete in menu
+set wildmode=longest,full   " Zsh style completition
+
+" Not suggest this files in tab completition
+set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*.swp,*~,._*
+set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
+
+set showcmd           " Show partial commands in the last line of the screen
+set shortmess=at      " Show short abbr in cmd [New File] -> [New]
+
+set virtualedit=block " Makes selecting columns easier if the first row isn’t the longest row.
+" == Appearanse ==
+set confirm           " Ask instead fail
+set hidden            " Allow to change buffer without saving
+set autoread          " Reload file when it change
+
+" == Split settings ==
+set splitbelow        " Horizontal splits open below current file
+set splitright        " Vertical splits open to the right of the current file
+
+" == Movement settings ==
+set scrolljump=5      " Lines to scroll when cursor leaves screen
+set scrolloff=5       " Always show 5 lines before scrolling
+set sidescroll=1      " Minimal number of columns to scroll horizontally
+set sidescrolloff=7   " Minimal number of screen columns to keep away from cursor
+
+set startofline       " Put cursot at the beginning of line, after big jump
+set noshowmatch       " When a bracket is inserted, briefly jump to the matching one.
+
+set iminsert=0        " lmap is off and IM is off
+set imsearch=0        " lmap is off and IM is off
+
+" === Indents ===
+set tabstop=4                  " Tab size
+set shiftwidth=4               " Tabs under smart indent
+set softtabstop=4              " Number of spaces while diside that tab is entered
+set expandtab
+
+" === Backspace, Ctrl+U, Ctrl+W ===
+set backspace=indent,eol,start " Delete everything with backspace
+
+" === Indent ===
+set autoindent                 " Save indent of the line before
+set shiftround                 " Indent/outdent to nearest tabstop
+
+" === Searching ===
+set hlsearch   " highlight matches
+set incsearch  " show searching word while typing
+set ignorecase " searches are case insensitive...
+set smartcase  " ... unless they contain at least one capital letter
+set wrapscan   " search around the file
+
+" === Languages ===
+set spell spelllang=ru_yo,en_us
+
+set foldmethod=indent " folds are defined by syntax highlighting
+set foldcolumn=0    " Not show fold level
+set foldlevelstart=99  " Fold nothing when open file
+
+" === Autocomletition ===
+
+set completeopt=menuone,longest,preview
+set pumheight=10      " Length of completiton list
+
+" === Invisible character ===
+set list                                           " Enable invisible character
+set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+
+" === Backup's ===
+
+" Should be same folders for all vims
+set backupdir=~/.vim/_backup//  " Where to put backup files.
+set directory=~/.vim/_temp//    " Where to put swap files.
+
+set history=50                  " Keep 50 comands in history
+set undolevels=128              " Default undo levels
+if exists("+undofile")          " Add undofile witch allow undo after reload
+    set undodir=~/.vim/_undodir//
+    set undolevels=300
+    set undofile
+endif
+
+let mapleader = " "
+set mouse=a " Turn on mouse support
+" }}}
+
+" Airline: {{{
+
+set noshowmode                                     " Don't show mode since airline show it
+let g:airline#extensions#tabline#enabled = 1       " Show tabs bar
+let g:airline_powerline_fonts=1
+let g:airline_mode_map = {
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'VL',
+      \ '' : 'VB',
+      \ }
+
+" }}}
+
+" Colorsheme {{{
+
+set termguicolors
+set background=dark
+let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_italic = 1    " Must be before colorscheme set
+colorscheme gruvbox         " Set colorscheme
+
+" }}}
+
+" Tmux: {{{
+" Disable tmux navigator when zooming the Vim pane
+let g:tmux_navigator_disable_when_zoomed = 1
+" }}}
+
+
+" MARKDOWN: {{{
+let vim_markdown_preview_github=1
+let vim_markdown_preview_browser='chromium'
+let vim_markdown_use_xdg_open=1
+
+" disable header folding
+let g:vim_markdown_folding_disabled = 1
+
+" do not use conceal feature, the implementation is not so good
+let g:vim_markdown_conceal = 0
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+
+let g:vim_markdown_frontmatter = 1  " for YAML format
+let g:vim_markdown_toml_frontmatter = 1  " for TOML format
+let g:vim_markdown_json_frontmatter = 1  " for JSON format
+" }}}
+
+" VIMLEADERMAP DIRECTORY: {{{
+
+let g:lmap = {}
+call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
+nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+
+let g:lmap.c = { 'name' : 'Comments' }
+let g:lmap.h = { 'name' : 'Hunks' }
+let g:lmap.a = { 'name' : 'Align' }
+let g:lmap.d = { 'name' : 'Denite' }
+
+" }}}
+
+" INCSEARCH: {{{
+map n <Plug>(is-nohl)<Plug>(anzu-n-with-echo)
+map N <Plug>(is-nohl)<Plug>(anzu-N-with-echo)
+
+map *  <Plug>(asterisk-z*)
+map #  <Plug>(asterisk-z#)
+map g* <Plug>(asterisk-gz*)
+map g# <Plug>(asterisk-gz#)
+
+let g:asterisk#keeppos = 1  " Safe cursor position when search words
+" }}}
+
+" INDENT_GUIDES: {{{
+let g:indent_guides_enable_on_vim_startup = 1
+" }}}
+
+" NERDCommenter: {{{
+"
+ let g:NERDDefaultAlign = 'left'      " Orientation
+ let g:NERDTrimTrailingWhitespace = 1
+ let g:NERDSpaceDelims = 1            " Add spaces after comment delimiters by default
+" }}}
+
+" COMPLETITION: {{{
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+
+" Snippets
+
+call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+let g:UltiSnipsSnippetDirectories = ['/home/denis/.vim/my_snippets/UltiSnips', 'UltiSnips']
+
+" }}}
+
+" LINT: {{{
+let g:airline#extensions#ale#enabled = 1
+let g:ale_completion_enabled = 1
+call deoplete#custom#source('ale', 'rank', 999)
+
+" Disable auto-detection of virtualenvironments
+" Environment variable ${VIRTUAL_ENV} is always used
+let g:ale_virtualenv_dir_names = []
+
+let g:ale_linters = {
+            \ 'sh': ['language_server'],
+            \ 'python': ['pyls']
+            \ }
+
+let g:ale_fixers = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \   'python': ['black','isort'],
+            \   'yml': ['prettier'],
+            \   'yaml.ansible': ['prettier']
+            \}
+
+" }}}
+
+" VIMUX: {{{
+nmap <leader>vo :call VimuxOpenRunner()
+
+function! VimuxSlime()
+    call VimuxSendText(@v)
+    call VimuxSendKeys("Enter")
+endfunction
+
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vmap <leader>vs "vy:call VimuxSlime()<CR>
+
+" Select current paragraph and send it to tmux
+nmap <leader>vs vip<leader>vs<CR>
+"
+" }}}
+"
+" TEST: {{{
+
+let test#strategy = {
+    \ 'nearest': 'dispatch',
+    \ 'file':    'dispatch',
+    \ 'suite':   'dispatch',
+    \}
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
+" }}}
+
+" RUSSIAN KEYMAP: {{{
+set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+
+nmap Ж :
+" yank
+nmap Н Y
+nmap з p
+nmap ф a
+nmap щ o
+nmap г u
+nmap З P
+" }}}
+"
+"
+" CUSTOM KEYBINDS{{[
+
+" Defx: {{{
+"
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+    " Define mappings
+    nnoremap <silent><buffer><expr> <CR>
+                \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> c
+                \ defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m
+                \ defx#do_action('move')
+    nnoremap <silent><buffer><expr> p
+                \ defx#do_action('paste')
+    nnoremap <silent><buffer><expr> l
+                \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> E
+                \ defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> P
+                \ defx#do_action('open', 'pedit')
+    nnoremap <silent><buffer><expr> o
+                \ defx#do_action('open_or_close_tree')
+    nnoremap <silent><buffer><expr> K
+                \ defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N
+                \ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M
+                \ defx#do_action('new_multiple_files')
+    nnoremap <silent><buffer><expr> C
+                \ defx#do_action('toggle_columns',
+                \                'mark:indent:icon:filename:type:size:time')
+    nnoremap <silent><buffer><expr> S
+                \ defx#do_action('toggle_sort', 'time')
+    nnoremap <silent><buffer><expr> d
+                \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r
+                \ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !
+                \ defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x
+                \ defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy
+                \ defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .
+                \ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ;
+                \ defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> h
+                \ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ~
+                \ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> q
+                \ defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space>
+                \ defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *
+                \ defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> j
+                \ line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k
+                \ line('.') == 1 ? 'G' : 'k'
+    nnoremap <silent><buffer><expr> <C-l>
+                \ defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g>
+                \ defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd
+                \ defx#do_action('change_vim_cwd')
+endfunction
+"
+" }}}
+
+" Denite: {{{
+nmap <silent> <leader>df :Denite file/rec <CR>
+nmap <silent> <leader>dg :Denite grep <CR>
+nmap <silent> <leader>db :Denite buffer <CR>
+
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>
+                \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d
+                \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+                \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+                \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i
+                \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+                \ denite#do_map('toggle_select').'j'
+endfunction
+
+" }}}
+
+" Custom: {{{
+
+" Sudo edit"
+ command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" }}}
+
+" vim: set ft=vim:

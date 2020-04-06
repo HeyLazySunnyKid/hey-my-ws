@@ -1,0 +1,7 @@
+---
+- name: Install packer.io
+  become: yes
+  script: other/packer_check_updates.sh 
+  register: pcu
+  changed_when: 'pcu.stdout != "latest"'
+  tags: packer, update
