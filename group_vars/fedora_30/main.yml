@@ -258,6 +258,9 @@ dans_tools:
     type: none
     include_tasks: packer.yml
 
+  - name: markdown2confluence
+    type: npm
+
 ### }}}
 
 ### tmp {{{
