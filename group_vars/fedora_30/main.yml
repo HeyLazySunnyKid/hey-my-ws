@@ -45,9 +45,6 @@ dans_tools:
         - python2-pexpect  # expect module
         - python3-pexpect  # expect module
         - rsync            # synchronize module
-    config:
-      - src: ansible.cfg
-        dest: /etc/ansible/ansible.cfg
 
   - name: zsh
     desc: Interactive shell
@@ -160,7 +157,7 @@ dans_tools:
         - rofi-pass
         - greenclip
     config:
-      - src: i3
+      - src: i3.j2
         dest: ~/.config/i3/config
 
   - name: rofi
