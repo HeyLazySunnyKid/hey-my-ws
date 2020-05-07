@@ -159,6 +159,7 @@ dans_tools:
     config:
       - src: i3.j2
         dest: ~/.config/i3/config
+    include_tasks: i3.yml
 
   - name: rofi
     dest: 'Menu for scripts'
@@ -203,6 +204,7 @@ dans_tools:
   - name: screenkey
     desc: 'Gtk tool for showing pressed keys'
     deps: {dnf: [pygtk2]}
+  - name: gimp
 ### }}}
 
 ### Conversation: {{{

@@ -209,11 +209,6 @@ client.urgent           $red $red $white $red $red
 bindsym $mod+m move workspace to output left
 bindsym $mod+q exec i3lock -c 1d2021
 
-# Change language
-exec --no-startup-id "setxkbmap -layout us,ru"
-exec --no-startup-id "setxkbmap -option 'grp:alt_shift_toggle'"
-exec --no-startup-id "setxkbmap -option ctrl:nocaps"
-
 # App
 exec --no-startup-id /usr/bin/feh --bg-scale ~/Pictures/Wallpaper/wallpaper.png
 exec --no-startup-id /usr/local/bin/greenclip daemon

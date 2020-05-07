@@ -1,0 +1,14 @@
+---
+- name: Safe current status
+  command: localectl status
+  register: localectl_status
+  changed_when: false
+
+- name: Set locale
+  command: "localectl --no-convert set-x11-keymap us,ru pc104 '','' 'grp:alt_shift_toggle,ctrl:nocaps'"
+  changed_when: false
+
+- name: Check if localectl changed
+  command: localectl status
+  register: new_localectl_status
+  changed_when: new_localectl_status.stdout != localectl_status.stdout
