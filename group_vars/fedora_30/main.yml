@@ -24,7 +24,7 @@ dans_repos:
     # yamllint disable rule:line-length
     - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
     - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
-    - "https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-{{ ansible_distribution_version }}-1.noarch.rpm"  # noqa 204
+    - "rpmsphere-release"
     - "slack-repo"
     # yamllint enable rule:line-length
 
