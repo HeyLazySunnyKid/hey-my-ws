@@ -28,7 +28,7 @@ dans_repos:
     - "slack-repo"
     # yamllint enable rule:line-length
 
-dans_tools:
+fedora30_dans_tools:
 
 ### CORE TERMINAL TOOLS: {{{
   - name: openssh
@@ -260,6 +260,8 @@ dans_tools:
   - name: markdown2confluence
     type: npm
 
+host_dans_tools: [] # this var shoud be set in host vars
+dans_tools: "{{ fedora30_dans_tools + host_dans_tools }}"
 ### }}}
 
 ### tmp {{{
