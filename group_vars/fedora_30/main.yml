@@ -28,7 +28,7 @@ dans_repos:
     - "slack-repo"
     # yamllint enable rule:line-length
 
-dans_tools:
+fedora30_dans_tools:
 
 ### CORE TERMINAL TOOLS: {{{
   - name: openssh
@@ -45,10 +45,6 @@ dans_tools:
         - python2-pexpect  # expect module
         - python3-pexpect  # expect module
         - rsync            # synchronize module
-    config:
-      - src: ansible.cfg
-        dest: /etc/ansible/ansible.cfg
-        backup: yes
 
   - name: zsh
     desc: Interactive shell
@@ -161,8 +157,9 @@ dans_tools:
         - rofi-pass
         - greenclip
     config:
-      - src: i3
+      - src: i3.j2
         dest: ~/.config/i3/config
+    include_tasks: i3.yml
 
   - name: rofi
     dest: 'Menu for scripts'
@@ -207,10 +204,12 @@ dans_tools:
   - name: screenkey
     desc: 'Gtk tool for showing pressed keys'
     deps: {dnf: [pygtk2]}
+  - name: gimp
 ### }}}
 
 ### Conversation: {{{
   - name: telegram-desktop
+  - name: zoom
   - name: slack
   - name: linphone
 ### }}}
@@ -258,6 +257,11 @@ dans_tools:
     type: none
     include_tasks: packer.yml
 
+  - name: markdown2confluence
+    type: npm
+
+host_dans_tools: [] # this var shoud be set in host vars
+dans_tools: "{{ fedora30_dans_tools + host_dans_tools }}"
 ### }}}
 
 ### tmp {{{
