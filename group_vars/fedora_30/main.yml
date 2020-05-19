@@ -32,6 +32,9 @@ fedora30_dans_tools:
 
 ### CORE TERMINAL TOOLS: {{{
   - name: openssh
+    config:
+      - src: ssh_config
+        dest: ~/.ssh/config
     include_tasks: openssh.yml
 
   - name: ansible
