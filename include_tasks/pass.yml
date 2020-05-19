@@ -50,7 +50,20 @@
       args:
         executable: /usr/bin/expect
 
-- name: Download pass repos
-  git:
-    repo: "{{ pass_git_repos }}"
-    dest: "~/.password-store"
+- name: Download pass repository
+  block:
+    - name: Download pass repo
+      git:
+        repo: "{{ pass_ssh_git_repos }}"
+        dest: "~/.password-store"
+      when: domain is undefined
+      tags: test
+
+    - name: Download pass repo through https
+      expect:
+        command: "git clone {{ pass_https_git_repos }} {{ ansible_env.HOME }}/.password-store"
+        responses:
+          Password\sfor: "{{ pass_git_password }}"
+        creates: "~/.password-store"
+      when: domain is defined
+      tags: test
