@@ -216,7 +216,8 @@ fedora30_dans_tools:
 
 ### Conversation: {{{
   - name: telegram-desktop
-  - name: zoom
+  - name: "https://zoom.us/client/latest/zoom_x86_64.rpm"
+    tag: zoom
   - name: slack
   - name: linphone
 ### }}}
