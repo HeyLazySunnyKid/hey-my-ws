@@ -2,7 +2,7 @@
 - name: Update plugins
   command: 'vagrant plugin update'
   environment:
-    SSL_CERT_FILE: "{{ ssl_cert_file | default(omit) }}"
+    SSL_CERT_FILE: "/etc/pki/tls/certs/ca-bundle.crt"
   register: vagrant_update
   changed_when: "'Fetching' in vagrant_update.stdout "
 
@@ -14,7 +14,7 @@
 - name: Install vagrant plugin vagrant-hostmanager
   command: 'vagrant plugin install {{ item }}'
   environment:
-    SSL_CERT_FILE: "{{ ssl_cert_file | default(omit) }}"
+    SSL_CERT_FILE: "/etc/pki/tls/certs/ca-bundle.crt"
   register: vagrant_plug
   failed_when: '"failed" in vagrant_plug.stderr'
   when: 'item not in vagrant_plug_list.stdout'
