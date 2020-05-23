@@ -107,6 +107,7 @@ alias vim="nvim"
 #===============================================================================
 
 source ~/.zshalias
+source ~/.zshspecalias
 alias fzfm='fzf -m --height 40%'
 
 alias c='xclip -selection clipboard'
