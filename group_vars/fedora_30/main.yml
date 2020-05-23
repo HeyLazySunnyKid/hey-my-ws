@@ -122,9 +122,9 @@ fedora30_dans_tools:
 
   # TODO: place docker.conf and daemon.json
   # TODO: start and enable by default
-  - name: geerlingguy.docker
-    type: role
-    tag: docker
+  - name: docker
+    type: none
+    include_tasks: docker.yml
 
   - name: VirtualBox-6.1
     tag: virtualbox
