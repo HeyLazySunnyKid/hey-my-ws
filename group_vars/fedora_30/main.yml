@@ -33,6 +33,7 @@ fedora30_dans_tools:
 ### CORE TERMINAL TOOLS: {{{
   - name: openssh
     include_tasks: openssh.yml
+    services: ["sshd"]
 
   - name: ansible
     desc: Automate configuration system
@@ -125,6 +126,7 @@ fedora30_dans_tools:
   - name: docker
     type: none
     include_tasks: docker.yml
+    services: ['docker']
 
   - name: VirtualBox-6.1
     tag: virtualbox
