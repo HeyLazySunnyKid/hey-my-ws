@@ -38,6 +38,7 @@ fedora30_dans_tools:
     config:
       - src: ssh_config
         dest: ~/.ssh/config
+        mode: '600'
     include_tasks: openssh.yml
     services: ["sshd"]
 

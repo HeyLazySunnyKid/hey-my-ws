@@ -1,5 +1,6 @@
 ---
 ansible_connection: local
 
+pass_ssh_git_repos: "{{ vault_ssh_git_repos }}"
 host_dans_tools:
   - name: steam
