@@ -1,5 +1,0 @@
----
-ansible_connection: local
-
-host_dans_tools:
-  - name: steam
