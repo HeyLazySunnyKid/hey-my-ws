@@ -9,6 +9,9 @@ pass_gpg_phrase: "{{ vault_pass_gpg_phrase }}"
 docker_users: "{{ ansible_user_id }}"
 pass_git_repos: "{{ vault_pass_git_repos }}"
 
+# configs_vars
+npmrc: {}
+
 # }}}
 
 dans_repos:
@@ -32,6 +35,9 @@ fedora30_dans_tools:
 
 ### CORE TERMINAL TOOLS: {{{
   - name: openssh
+    config:
+      - src: ssh_config
+        dest: ~/.ssh/config
     include_tasks: openssh.yml
     services: ["sshd"]
 
@@ -56,6 +62,8 @@ fedora30_dans_tools:
         dest: ~/.zshrc
       - src: zshalias
         dest: ~/.zshalias
+      - src: zshspecalias
+        dest: ~/.zshspecalias
 
   - name: neovim
     desc: Dark powered vim editor
@@ -122,7 +130,6 @@ fedora30_dans_tools:
     include_tasks: xrdp.yml
 
   # TODO: place docker.conf and daemon.json
-  # TODO: start and enable by default
   - name: docker
     type: none
     include_tasks: docker.yml
@@ -211,7 +218,8 @@ fedora30_dans_tools:
 
 ### Conversation: {{{
   - name: telegram-desktop
-  - name: zoom
+  - name: "https://zoom.us/client/latest/zoom_x86_64.rpm"
+    tag: zoom
   - name: slack
   - name: linphone
 ### }}}
@@ -258,6 +266,19 @@ fedora30_dans_tools:
     desc: 'hashicorp tool for automate images build as code'
     type: none
     include_tasks: packer.yml
+
+  # Configure npm
+  - name: npm
+    config:
+      - src: npmrc.j2
+        dest: ~/.npmrc
+
+  # Install latest npm
+  - name: npm
+    type: npm
+
+  - name: n
+    type: npm
 
   - name: markdown2confluence
     type: npm

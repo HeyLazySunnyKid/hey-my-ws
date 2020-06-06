@@ -1,5 +1,5 @@
 ---
-- hosts: fedora_30
+- hosts: mypc001
   handlers:
     - import_tasks: 'handlers/fedora_ws_handlers.yml'
   roles:

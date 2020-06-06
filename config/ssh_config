@@ -1,0 +1,3 @@
+Host vm*
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
