@@ -4,10 +4,7 @@
     content: |
       neovim
       yamllint
-      pudb
       pynvim
-      python-language-server[all]
-      jedi
     dest: "~/.virtualenv/{{ item }}"
   loop:
     - requirements/neovim.txt
