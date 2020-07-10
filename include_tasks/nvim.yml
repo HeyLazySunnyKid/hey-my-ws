@@ -1,0 +1,45 @@
+---
+- name: create molecule venv folder
+  copy:
+    content: |
+      neovim
+      yamllint
+      pudb
+      pynvim
+      python-language-server[all]
+      jedi
+    dest: "~/.virtualenv/{{ item }}"
+  loop:
+    - requirements/neovim.txt
+    - requirements/neovim2.txt
+
+- name: Create neovim virtualenv with latest pip
+  pip:
+    name: pip
+    state: latest
+    virtualenv: ~/.virtualenv/neovim
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Install neovim dependencies
+  pip:
+    requirements: ~/.virtualenv/requirements/neovim.txt
+    state: latest
+    virtualenv: ~/.virtualenv/neovim
+    virtualenv_command: /usr/bin/python3 -m venv
+
+# You coudn't install other packages while pip not latest version
+- name: Create python2 neovim virtualenv
+  pip:
+    name: pip
+    state: latest
+    virtualenv: ~/.virtualenv/neovim2
+    virtualenv_command: virtualenv
+    virtualenv_python: python2.7
+
+- name: Install python2 neovim dependencies
+  pip:
+    state: latest
+    virtualenv: ~/.virtualenv/neovim2
+    virtualenv_command: virtualenv
+    virtualenv_python: python2.7
+    requirements: ~/.virtualenv/requirements/neovim2.txt

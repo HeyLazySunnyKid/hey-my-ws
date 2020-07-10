@@ -53,19 +53,19 @@
     virtualenv_python: python2.7
     requirements: ~/.virtualenv/requirements/molecule2.txt
 
-- name: Link selinux to venv [bugfix]
-  # https://github.com/ansible/molecule/issues/1724
-  file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    state: link
-  with_items:
-    - src: /usr/lib64/python3.7/site-packages/selinux
-      dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/selinux
-    - src: /usr/lib64/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
-      dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
+# - name: Link selinux to venv [bugfix]
+#   # https://github.com/ansible/molecule/issues/1724
+#   file:
+#     src: "{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     state: link
+#   with_items:
+#     - src: /usr/lib64/python3.7/site-packages/selinux
+#       dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/selinux
+#     - src: /usr/lib64/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
+#       dest: ~/.virtualenv/molecule/lib/python3.7/site-packages/_selinux.cpython-37m-x86_64-linux-gnu.so
 
-    - src: /usr/lib64/python2.7/site-packages/selinux
-      dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/selinux
-    - src: /usr/lib64/python2.7/site-packages/_selinux.so
-      dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/_selinux.so
+#     - src: /usr/lib64/python2.7/site-packages/selinux
+#       dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/selinux
+#     - src: /usr/lib64/python2.7/site-packages/_selinux.so
+#       dest: ~/.virtualenv/molecule2/lib/python2.7/site-packages/_selinux.so

@@ -1,3 +1,4 @@
+{% raw %}
 " Dein.vim setup {{{
 if &compatible
     set nocompatible
@@ -17,7 +18,7 @@ if dein#load_state('~/.cache/dein')
         call dein#add('honza/vim-snippets')
         call dein#add('phenomenes/ansible-snippets')
 
-        call dein#add('w0rp/ale')
+        call dein#add('dense-analysis/ale')
         call dein#add('Shougo/deoplete.nvim')
 
     " }}}
@@ -63,7 +64,7 @@ if dein#load_state('~/.cache/dein')
     " }}}
     "
     " TESTS: {{{
-        call dein#add('janko-m/vim-test')
+        call dein#add('vim-test/vim-test')
         call dein#add('benmills/vimux')
     " }}}
 
@@ -239,6 +240,16 @@ endif
 let mapleader = " "
 set mouse=a " Turn on mouse support
 " }}}
+"
+
+" NeoVim: {{{
+
+{% endraw %}
+let g:python_host_prog = "/home/{{ ansible_user_id  }}/.virtualenv/neovim2/bin/python"
+let g:python3_host_prog = "/home/{{ ansible_user_id }}/.virtualenv/neovim/bin/python"
+{% raw %}
+
+" }}}
 
 " Airline: {{{
 
@@ -348,24 +359,36 @@ let g:UltiSnipsSnippetDirectories = ['/home/denis/.vim/my_snippets/UltiSnips', '
 
 " LINT: {{{
 let g:airline#extensions#ale#enabled = 1
-let g:ale_completion_enabled = 1
 call deoplete#custom#source('ale', 'rank', 999)
 
 " Disable auto-detection of virtualenvironments
 " Environment variable ${VIRTUAL_ENV} is always used
 let g:ale_virtualenv_dir_names = []
 
+
 let g:ale_linters = {
-            \ 'sh': ['language_server'],
-            \ 'python': ['pyls']
-            \ }
+    \   'csh': ['shell'],
+    \   'elixir': ['credo', 'dialyxir', 'dogma'],
+    \   'go': ['gofmt', 'golint', 'go vet'],
+    \   'hack': ['hack'],
+    \   'help': [],
+    \   'perl': ['perlcritic'],
+    \   'perl6': [],
+    \   'python': ['pyls', 'flake8', 'mypy', 'pylint'],
+    \   'rust': ['cargo'],
+    \   'spec': [],
+    \   'text': [],
+    \   'vue': ['eslint', 'vls'],
+    \   'zsh': ['shell'],
+    \   'sh': ['language_server']
+    \}
 
 let g:ale_fixers = {
-            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \   'python': ['black','isort'],
-            \   'yml': ['prettier'],
-            \   'yaml.ansible': ['prettier']
-            \}
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'python': ['black','isort'],
+    \   'yml': ['prettier'],
+    \   'yaml.ansible': ['prettier']
+    \}
 
 " }}}
 
@@ -515,4 +538,5 @@ endfunction
  command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 " }}}
 
+{% endraw %}
 " vim: set ft=vim:

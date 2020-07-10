@@ -69,17 +69,20 @@ fedora30_dans_tools:
   - name: neovim
     desc: Dark powered vim editor
     deps:
-      dnf:
-        - python3-neovim
-        - yamllint      # lint tool
-        - python2-pudb  # debug python2
-        - python3-pudb  # debug python3
-        - xclip
-      pip2: [ pynvim, 'python-language-server[all]' ]
-      pip3: [ pynvim, 'python-language-server[all]' ]
+      dnf: ['xclip']
+      # IDE dependency (and install them in all Project venv)
+      pip3:
+        - '~jedi'
+        - '~pylint'
+        - '~mypy'
+        - '~isort'
+        - '~black'
+        - '~flake8'
+        - '~python-language-server[all]'
     config:
-      - src: init.vim
+      - src: init.vim.j2
         dest: ~/.config/nvim/init.vim
+    include_tasks: nvim.yml
 
   - name: tmux
     desc: Terminal windows multiplexer
@@ -253,7 +256,6 @@ fedora30_dans_tools:
         - python3-devel
         - virtualenv
         - python3-libselinux
-        - python2-libselinux
     include_tasks: molecule.yml
 
   - name: pacur
