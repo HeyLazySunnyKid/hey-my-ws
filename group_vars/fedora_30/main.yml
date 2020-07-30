@@ -65,6 +65,8 @@ fedora30_dans_tools:
         dest: ~/.zshalias
       - src: zshspecalias
         dest: ~/.zshspecalias
+      - src: p10k.zsh
+        dest: ~/.p10k.zsh
 
   - name: neovim
     desc: Dark powered vim editor

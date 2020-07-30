@@ -1,43 +1,11 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 export TERM="xterm-256color"
-
-#===============================================================================
-# POWERLEVEL9K
-#===============================================================================
-POWERLEVEL9K_MODE='nerdfont-complete'
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode root_indicator dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( virtualenv status background_jobs time)
-
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
-
-POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
-
-POWERLEVEL9K_VI_MODE_INSERT_BACKGROUND='109'
-POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND='233'
-POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND='245'
-POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND='233'
-
-POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
-
-POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=$'\uE0B0'
-POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=$'\uE0B2'
-
-POWERLEVEL9K_DIR_HOME_BACKGROUND="blue"
-POWERLEVEL9K_DIR_HOME_FOREGROUND="232"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="blue"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="232"
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="white"
-POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="232"
-
-POWERLEVEL9K_TIME_BACKGROUND="white"
-POWERLEVEL9K_TIME_FOREGROUND="232"
-
-POWERLEVEL9K_HISTORY_BACKGROUND="white"
-POWERLEVEL9K_HISTORY_FOREGROUND="232"
-
-POWERLEVEL9K_VIRTUALENV_BACKGROUND="yellow"
-POWERLEVEL9K_VIRTUALENV_FOREGROUND="232"
 
 #===============================================================================
 # Antigen
@@ -45,7 +13,7 @@ POWERLEVEL9K_VIRTUALENV_FOREGROUND="232"
 
 source ~/.zplug/init.zsh
 
-zplug "bhilburn/powerlevel9k", as:theme
+zplug "romkatv/powerlevel10k", as:theme
 zplug "plugins/gitfast", from:oh-my-zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "plugins/z", from:oh-my-zsh
@@ -78,7 +46,6 @@ ENABLE_CORRECTION="false"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
-# export LANG="ru_RU.UTF-8"
 export LANG="en_US.UTF-8"
 export EDITOR="nvim"
 export USE_EDITOR=$EDITOR
@@ -100,7 +67,6 @@ export HISTFILE=~/.zhistory
 setopt inc_append_history no_share_history hist_ignore_dups extended_history
 
 export FZF_CTRL_T_COMMAND='find .'
-alias vim="nvim"
 
 #===============================================================================
 # Alieses
@@ -108,80 +74,25 @@ alias vim="nvim"
 
 source ~/.zshalias
 source ~/.zshspecalias
-alias fzfm='fzf -m --height 40%'
 
+alias vim="nvim"
+alias ls='ls --color'
+alias nmutt='neomutt'
+
+alias fzfm='fzf -m --height 40%'
 alias c='xclip -selection clipboard'
 alias v='xclip -o -selection clipboard'
 
-alias ls='ls --color'
-
 alias ssh='echo -ne "\033[2 q" & TERM=xterm-256color ssh'
-
-alias pywork='f(){source ~/VPythonEnvs/$1/bin/activate}; f'
-alias pylist='ls ~/VPythonEnvs'
-
-alias nmutt='neomutt'
 
 #===============================================================================
 # Bindkeys
 #===============================================================================
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-
-
-#===============================================================================
-# Funcs
-#===============================================================================
-
-function zle-line-init {
-    powerlevel9k_prepare_prompts
-    if (( ${+terminfo[smkx]} )); then
-        printf '%s' ${terminfo[smkx]}
-    fi
-    zle reset-prompt
-    zle -R
-
-    # Make cursor insert
-    echo -ne "\033]12;Grey\007"
-    echo -ne "\033[6 q"
-}
-
-function zle-line-finish {
-    powerlevel9k_prepare_prompts
-    if (( ${+terminfo[rmkx]} )); then
-        printf '%s' ${terminfo[rmkx]}
-    fi
-    zle reset-prompt
-    zle -R
-}
-
-function zle-keymap-select {
-    powerlevel9k_prepare_prompts
-
-    if [ $KEYMAP = vicmd ]; then
-        echo -ne "\033]12;Grey\007"
-        echo -ne "\033[2 q"
-    else
-        echo -ne "\033]12;Grey\007"
-        echo -ne "\033[6 q"
-    fi
-
-    zle reset-prompt
-    zle -R
-}
-
-zle -N zle-line-init
-zle -N zle-line-finish
-zle -N zle-keymap-select
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-function chpwd() {
-    emulate -L zsh
-    ls
-}
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
