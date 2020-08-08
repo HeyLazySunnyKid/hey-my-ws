@@ -1,0 +1,19 @@
+---
+- name: Add user to pkg-build group
+  become: yes
+  user:
+    user: "{{ ansible_user_id }}"
+    group: pkg-build
+    append: yes
+
+- name: reset connection
+  meta: reset_connection
+
+- name: list lpf packages
+  command: 'lpf list'
+  changed_when: false
+  register: lpf
+
+- name: Install lpf
+  command: 'lpf update spotify-client'
+  when: "'spotify-client' not in lpf.stdout_lines"

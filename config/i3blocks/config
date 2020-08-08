@@ -28,13 +28,17 @@
 #
 command=$HOME/.config/i3blocks/$BLOCK_NAME/$BLOCK_NAME
 separator_block_width=15
-markup=none
+markup=pango
 
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
+
+[spotify]
+command=~/.local/bin/i3blocks-spotify-persist -c ~/.config/i3blocks/spotify
+interval=persist
 
 [key_layout]
 label=Layout
@@ -144,3 +148,4 @@ color=#b8bb26
 #markup=pango
 #interval=once
 #signal=11
+

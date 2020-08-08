@@ -113,6 +113,9 @@ fedora30_dans_tools:
         - pinentry-gtk
         - pwgen
         - pass-otp
+    config:
+      - src: gpg-agent.conf
+        dest: ~/.gnupg/gpg-agent.conf
     include_tasks: pass.yml
 
   - name: st
@@ -184,10 +187,13 @@ fedora30_dans_tools:
 
   - name: i3blocks
     desc: 'Status bar builded from blocks'
+    deps: {pip3: ['~i3blocks-spotify-persist']}
     config:
-      - src: i3blocks
+      - src: i3blocks/config
         dest: ~/.config/i3blocks/config
-    tasks: i3blocks.yml
+      - src: i3blocks/spotify
+        dest: ~/.config/i3blocks/spotify
+    include_tasks: i3blocks.yml
 
   - name: dunst
     desc: 'Notification manager'
@@ -210,8 +216,14 @@ fedora30_dans_tools:
     deps: {dnf: [ImageMagick, imgurbash2] }
 ### }}}
 
-### GUI Clients: {{{
+### GUI Apps: {{{
   - name: xfreerdp
+
+  - name: lpf-spotify-client
+    tag: spotify
+    desc: 'Spotify'
+    include_tasks: spotify.yml
+
 ### }}}
 
 ### GUI Tools: {{{

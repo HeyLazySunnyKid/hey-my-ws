@@ -1,0 +1,14 @@
+{
+    "format": "<span font_family='monospace' color='#ffa651' weight='bold'>{status:icon}</span> <span color='#72bf44' weight='bold'>{artist}</span><span color='#ffa651'>᛫</span><span color='#b2d235'>{title}</span>",
+    "markup_escape": true,
+    "status_icons": {
+        "Playing": "\uf04b", 
+        "Paused": "\uf04c", 
+        "Stopped": "\uf04d"
+    },
+    "mouse_buttons": {
+        "1": "PlayPause",
+        "4": "Previous",
+        "5": "Next"
+    }
+}
