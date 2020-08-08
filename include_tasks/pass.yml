@@ -6,11 +6,6 @@
     state: directory
     mode: 0700
 
-- name: Set GPG use agent gtk based agent
-  copy:
-    dest: "$HOME/.gnupg/gpg-agent.conf"
-    content: "pinentry-program /usr/bin/pinentry-gtk"
-
 - name: Copy gpg key to host
   copy:
     src: 'secrets/secretpasskey.asc'
