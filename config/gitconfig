@@ -8,6 +8,7 @@
 	rb = rebase
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph
 	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	drop = push origin --delete
 
 [user]
 	email = denis.kaluzhnyy@gmail.com
