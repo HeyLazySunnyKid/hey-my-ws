@@ -30,6 +30,9 @@ dans_repos:
     - "rpmsphere-release"
     - "slack-repo"
     # yamllint enable rule:line-length
+  key:
+    - key: "https://zoom.us/linux/download/pubkey"
+      fingerprint: "3960 60CA DD8A 7522 0BFC B369 B903 BF18 61A7 C71D"
 
 fedora30_dans_tools:
 
