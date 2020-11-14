@@ -1,19 +1,21 @@
 ---
-- name: Add user to pkg-build group
-  become: yes
-  user:
-    user: "{{ ansible_user_id }}"
-    group: pkg-build
-    append: yes
+# Module user failed with sssd user
+- name: "Check {{ ansible_user_id }} in group: pkg-build"
+  shell: "groups | grep -o pkg-build || true"
+  changed_when: false
+  register: check_pkg_build
 
-- name: reset connection
-  meta: reset_connection
+- name: "Add to group: pkg-build"
+  become: yes
+  command: "usermod  -a -G pkg-build {{ ansible_user_id }}"
+  when: check_pkg_build.stdout == ""
 
 - name: list lpf packages
-  command: 'lpf list'
+  command: 'sudo -u {{ ansible_user_id }} lpf list'
   changed_when: false
   register: lpf
 
 - name: Install lpf
-  command: 'lpf update spotify-client'
+  # sudo su make new groups affected
+  command: 'sudo -u {{ ansible_user_id }} lpf update spotify-client'
   when: "'spotify-client' not in lpf.stdout_lines"

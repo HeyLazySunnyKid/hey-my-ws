@@ -77,7 +77,7 @@ fedora30_dans_tools:
       dnf: ['xclip']
       # IDE dependency (and install them in all Project venv)
       pip3:
-        - '~jedi'
+        - '~jedi' # user install permission denied
         - '~pylint'
         - '~mypy'
         - '~isort'
@@ -256,7 +256,7 @@ fedora30_dans_tools:
   - name: java-1.8.0-openjdk-devel
     tag: java
 
-  - name: nvchecker
+  - name: ~nvchecker
     desc: checker latest version of sources
     type: pip3
 
