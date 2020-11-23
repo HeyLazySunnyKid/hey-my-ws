@@ -18,6 +18,7 @@ dans_repos:
   file:
     - "yum.repos.d/dans-pacur.repo"
     - "yum.repos.d/virtualbox.repo"
+    # TODO: Change release version, when update come
     - "yum.repos.d/freerdp-nightly.repo"
   copr:
     - "flatcap/neomutt"
