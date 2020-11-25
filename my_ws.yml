@@ -3,4 +3,5 @@
   handlers:
     - import_tasks: 'handlers/fedora_ws_handlers.yml'
   roles:
-    - heylazysunnykid.ws_dans
+    # - heylazysunnykid.ws_dans
+    - local_ws_dans
