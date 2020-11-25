@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -177,7 +177,7 @@ set $gray #a89984
 set $darkgray #1d2021
 
 # font used by i3 for titles and bars
-font pango:Hack 8
+font pango:Anonymice Nerd Font Mono 8
 
 #start of window title bars & borders section
 
@@ -208,6 +208,9 @@ client.urgent           $red $red $white $red $red
 # User specified keybinding
 bindsym $mod+m move workspace to output left
 bindsym $mod+q exec i3lock -c 1d2021
+
+# Yad bug
+for_window [class="Yad"] floating enable
 
 # App
 exec --no-startup-id /usr/bin/feh --bg-scale ~/Pictures/Wallpaper/wallpaper.png

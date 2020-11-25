@@ -51,14 +51,14 @@ signal=10
 
 # eno1 status
 [iface]
-IFACE=eno1
+IFACE={{ ansible_default_ipv4.interface }}
 color=#b8bb26
 interval=10
 separator=false
 
 [bandwidth]
 color=#b8bb26
-INTERFACE=eno1
+INTERFACE={{ ansible_default_ipv4.interface }}
 interval=5
 
 # # Memory usage
@@ -102,10 +102,14 @@ color=#fb4934
 separator_block_width=10
 DIR=/
 
-[time]
-command=date '+%Y-%m-%d %H:%M:%S'
+[calendar]
+command=~/.config/i3blocks/calendar/calendar
 interval=1
+LABEL= 
+DATEFMT=+%H:%M:%S %d-%m-%Y
 color=#b8bb26
+HEIGHT=180
+WIDTH=220
 
 # Generic media player support
 #

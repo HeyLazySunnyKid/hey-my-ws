@@ -49,12 +49,10 @@ fedora30_dans_tools:
   - name: ansible
     desc: Automate configuration system
     deps:
-      pip2: [mitogen]      # burst speed of running ansible modules
       dnf:
         # All module's dependensies here, because my workstation is ansible
         # manager host
         - expect           # expect module
-        - python2-pexpect  # expect module
         - python3-pexpect  # expect module
         - rsync            # synchronize module
 
@@ -111,7 +109,7 @@ fedora30_dans_tools:
     deps:
       dnf:
         - expect
-        - python2-pexpect
+        # - python2-pexpect
         - python3-pexpect
         - gnupg2
         - pinentry-gtk
@@ -137,8 +135,6 @@ fedora30_dans_tools:
   - name: openldap-clients
   - name: postgresql
     decs: only psql client (because no settings for server)
-  - name: vault
-
 ### }}}
 
 ### Servers & Services: {{{
@@ -166,8 +162,7 @@ fedora30_dans_tools:
         - kernel-devel
     include_tasks: virtualbox.yml
 
-  - name: 'https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.rpm'
-    tag: vagrant
+  - name: vagrant
     include_tasks: vagrant.yml
 ### }}}
 
@@ -198,7 +193,7 @@ fedora30_dans_tools:
     desc: 'Status bar builded from blocks'
     deps: {pip3: ['~i3blocks-spotify-persist']}
     config:
-      - src: i3blocks/config
+      - src: i3blocks/config.j2
         dest: ~/.config/i3blocks/config
       - src: i3blocks/spotify
         dest: ~/.config/i3blocks/spotify
@@ -275,7 +270,6 @@ fedora30_dans_tools:
     type: none
     deps:
       dnf:
-        - python2-devel
         - python3-devel
         - virtualenv
         - python3-libselinux
