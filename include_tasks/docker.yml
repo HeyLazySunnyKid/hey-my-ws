@@ -4,3 +4,7 @@
     ansible_become: yes
   include_role:
     name: geerlingguy.docker
+
+# Notes:
+# 1. If DNS not worked in docker:
+# sudo firewall-cmd --change-interface=docker0 --zone=libvirt
