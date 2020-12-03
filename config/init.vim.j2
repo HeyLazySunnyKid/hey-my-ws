@@ -77,7 +77,8 @@ if dein#load_state('~/.cache/dein')
     " INTERFACE: {{{
         " Status line
         call dein#add('vim-airline/vim-airline')
-        call dein#add('edkolev/tmuxline.vim')
+        " if turn on -> tmux prefix broken (but used for copy tmux theme)
+        " call dein#add('edkolev/tmuxline.vim')  
         call dein#add('nathanaelkane/vim-indent-guides')
         " Plugin that show key help menu
         " TODO: add different guides
