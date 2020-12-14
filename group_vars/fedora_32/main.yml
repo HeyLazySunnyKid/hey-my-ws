@@ -215,7 +215,7 @@ fedora30_dans_tools:
   - name: pavucontrol
     desc: 'Volume control for PulseAudio'
 
-  - name: teiler
+  - name: heyteiler
     desc: 'Screenshot and Screencast rofi tool'
     deps: {dnf: [ImageMagick, imgurbash2] }
 ### }}}
