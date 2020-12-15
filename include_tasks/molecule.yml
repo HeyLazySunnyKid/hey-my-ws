@@ -10,9 +10,10 @@
 - name: create molecule venv folder
   copy:
     content: |
-      ansible
       setuptools
-      molecule<3.0.0
+      ansible==2.9.7
+      molecule==2.20.2
+      selinux
       docker
       python-vagrant
       molecule[vagrant]
