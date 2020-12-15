@@ -16,7 +16,8 @@ source ~/.zplug/init.zsh
 zplug "romkatv/powerlevel10k", as:theme
 zplug "plugins/gitfast", from:oh-my-zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
-zplug "plugins/z", from:oh-my-zsh
+zplug "changyuheng/fz", defer:1
+zplug "rupa/z", use:z.sh
 zplug "plugins/taskwarrior", from:oh-my-zsh
 
 zplug "junegunn/fzf", \
