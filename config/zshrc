@@ -83,8 +83,6 @@ alias fzfm='fzf -m --height 40%'
 alias c='xclip -selection clipboard'
 alias v='xclip -o -selection clipboard'
 
-alias ssh='echo -ne "\033[2 q" & TERM=xterm-256color ssh'
-
 #===============================================================================
 # Bindkeys
 #===============================================================================
