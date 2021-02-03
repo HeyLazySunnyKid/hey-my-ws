@@ -128,6 +128,13 @@ fedora30_dans_tools:
   - name: st
     desc: Simple Terminal emulator
 
+  # Development
+  - name: direnv
+    desc: Autoload enviroment inside directory
+
+  - name: pyenv
+    desc: Set version of python environment 
+
 ### }}}
 
 ### Terminal Clients: {{{
