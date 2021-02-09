@@ -73,7 +73,8 @@ fedora30_dans_tools:
   - name: neovim
     desc: Dark powered vim editor
     deps:
-      dnf: ['xclip']
+      dnf: 
+        - 'xclip'
       # IDE dependency (and install them in all Project venv)
       pip3:
         - '~jedi' # user install permission denied
@@ -83,6 +84,7 @@ fedora30_dans_tools:
         - '~black'
         - '~flake8'
         - '~python-language-server[all]'
+      npm: 'instant-markdown-d'
     config:
       - src: init.vim.j2
         dest: ~/.config/nvim/init.vim

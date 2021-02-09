@@ -69,6 +69,9 @@ setopt inc_append_history no_share_history hist_ignore_dups extended_history
 
 export FZF_CTRL_T_COMMAND='find .'
 
+
+eval "$(direnv hook zsh)"
+
 #===============================================================================
 # Alieses
 #===============================================================================
