@@ -40,14 +40,20 @@ markup=pango
 command=~/.local/bin/i3blocks-spotify-persist -c ~/.config/i3blocks/spotify
 interval=persist
 
-[key_layout]
-label=Layout
-interval=5
-
 [volume]
 LABEL=♪ 
 interval=once
 signal=10
+
+[language]
+label= 
+command=~/.local/bin/i3blocks-language
+interval=once
+signal=12
+
+[language-helper]
+interval=persist
+command=xmapnotify | xargs -I{} pkill -RTMIN+12 i3blocks
 
 # eno1 status
 [iface]

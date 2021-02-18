@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+if [ ${BLOCK_BUTTON} -eq 1 -o ${BLOCK_BUTTON} -eq 3 ]; then
+    xkblayout-state set +1;
+fi
+echo $(xkblayout-state print '%s')

@@ -137,6 +137,10 @@ fedora30_dans_tools:
   - name: pyenv
     desc: Set version of python environment 
 
+  - name: ~jenkins-job-builder
+    desc: Generate jenkins jobs
+    type: pip3
+
 ### }}}
 
 ### Terminal Clients: {{{
@@ -200,7 +204,12 @@ fedora30_dans_tools:
 
   - name: i3blocks
     desc: 'Status bar builded from blocks'
-    deps: {pip3: ['~i3blocks-spotify-persist']}
+    deps: 
+      pip3: 
+        - '~i3blocks-spotify-persist'
+      dnf:
+        - 'xkblayout-state'
+        - 'xmapnotify'
     config:
       - src: i3blocks/config.j2
         dest: ~/.config/i3blocks/config

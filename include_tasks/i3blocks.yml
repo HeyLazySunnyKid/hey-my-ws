@@ -4,3 +4,14 @@
     dest: "$HOME/.config/i3blocks"
     repo: https://github.com/vivien/i3blocks-contrib
   tags: i3blocks
+
+- name: Create local bin directory
+  file:
+    path: ~/.local/bin
+    state: directory
+
+- name: Put i3blocks-language script
+  copy:
+    src: other/i3blocks-language
+    dest: ~/.local/bin/i3blocks-language
+    mode: 0755
