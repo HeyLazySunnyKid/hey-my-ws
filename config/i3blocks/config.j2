@@ -45,15 +45,10 @@ LABEL=♪
 interval=once
 signal=10
 
-[language]
+[keymap]
 label= 
-command=~/.local/bin/i3blocks-language
-interval=once
-signal=12
-
-[language-helper]
+command=bash -c 'xkb-switch;xkb-switch -W'
 interval=persist
-command=xmapnotify | xargs -I{} pkill -RTMIN+12 i3blocks
 
 # eno1 status
 [iface]

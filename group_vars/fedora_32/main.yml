@@ -17,8 +17,8 @@ npmrc: {}
 dans_repos:
   file:
     - "yum.repos.d/dans-pacur.repo"
-    - "yum.repos.d/virtualbox.repo"
     # TODO: Change release version, when update come
+    - "yum.repos.d/virtualbox.repo"
     - "yum.repos.d/freerdp-nightly.repo"
   copr:
     - "flatcap/neomutt"
@@ -73,7 +73,7 @@ fedora30_dans_tools:
   - name: neovim
     desc: Dark powered vim editor
     deps:
-      dnf: 
+      dnf:
         - 'xclip'
       # IDE dependency (and install them in all Project venv)
       pip3:
@@ -111,7 +111,6 @@ fedora30_dans_tools:
     deps:
       dnf:
         - expect
-        # - python2-pexpect
         - python3-pexpect
         - gnupg2
         - pinentry-gtk
@@ -130,12 +129,18 @@ fedora30_dans_tools:
   - name: st
     desc: Simple Terminal emulator
 
+  - name: alacritty
+    desc: A cross-platform, GPU-accelerated terminal emulator
+    config:
+      - src: alacritty.yml
+        dest: ~/.config/alacritty/alacritty.yml
+
   # Development
   - name: direnv
     desc: Autoload enviroment inside directory
 
   - name: pyenv
-    desc: Set version of python environment 
+    desc: Set version of python environment
 
   - name: ~jenkins-job-builder
     desc: Generate jenkins jobs
@@ -204,8 +209,8 @@ fedora30_dans_tools:
 
   - name: i3blocks
     desc: 'Status bar builded from blocks'
-    deps: 
-      pip3: 
+    deps:
+      pip3:
         - '~i3blocks-spotify-persist'
       dnf:
         - 'xkblayout-state'
@@ -321,9 +326,23 @@ fedora30_dans_tools:
   - name: markdown2confluence
     type: npm
 
+  # New
+  - name: the_silver_searcher
+
+  # Language servers
+  - name: bash-language-server
+    type: npm 
+  - name: yaml-language-server
+    type: npm
+
+  - name: pyright
+    type: npm
+  ##
+
 host_dans_tools: [] # this var shoud be set in host vars
 dans_tools: "{{ fedora30_dans_tools + host_dans_tools }}"
 ### }}}
+#
 
 ### tmp {{{
 ###}}}
