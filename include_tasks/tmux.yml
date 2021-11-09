@@ -8,3 +8,7 @@
   git:
     dest: "$HOME/.tmux/plugins/tpm"
     repo: https://github.com/tmux-plugins/tpm
+
+# TODO: shoud be handler
+- name: Install plugins
+  command: '~/.tmux/plugins/tpm/bin/install_plugins'

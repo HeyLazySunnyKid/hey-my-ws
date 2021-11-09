@@ -35,12 +35,12 @@
 - name: Create folder for fonts
   become: true
   file:
-    path: /usr/share/fonts/nerdfonts
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
     state: directory
 
 - name: Set nerd font
   become: true
   copy:
-    src: 'other/Anonymice Nerd Font Complete Mono.ttf'
-    dest: '/usr/share/fonts/nerdfonts/Anonymice Nerd Font Complete Mono.ttf'
-  notify: update fonts
+    src: "other/Anonymice Nerd Font Complete Mono.ttf"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/Anonymice Nerd Font Complete Mono.ttf"
+    notify: update fonts

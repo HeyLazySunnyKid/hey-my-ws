@@ -1,0 +1,24 @@
+---
+- name: Check yay installed
+  ansible.builtin.package_facts:
+    manager: "auto"
+
+- name: "Install yay"
+  when: "'yay' not in ansible_facts.packages"
+  block:
+    - name: Create "{{ ansible_env.HOME }}/.src" directory
+      file:
+        path: "{{ ansible_env.HOME }}/.src"
+        state: directory
+
+    - name: Download yay
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "{{ ansible_env.HOME }}/.src/yay"
+        force: yes
+
+    - name: Build yay
+      command:
+        chdir: "{{ ansible_env.HOME }}/.src/yay"
+        cmd: "makepkg -sfi --noconfirm"
+        creates: /usr/bin/yay

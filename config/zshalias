@@ -1,6 +1,10 @@
 # GENERAL: {{{
 alias edit_alias='nvim ~/.zshalias'
 alias sunvim='sudo -E nvim'
+
+function calc() { 
+    printf "%s\n" "$@" | bc -l; 
+}
 # }}}
 
 # RDP: {{{
@@ -21,3 +25,4 @@ function eowd(){ task calc today + 18h }
 # Before dinner ( 13:00 )
 function bd(){ task calc today + 13h }
 # }}}
+#

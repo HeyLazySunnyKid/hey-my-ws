@@ -31,7 +31,7 @@
 
 - name: Remove vim-minimal
   become: yes
-  dnf:
+  package:
     name:
       - vim-minimal
     state: absent

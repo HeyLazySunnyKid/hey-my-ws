@@ -1,7 +1,16 @@
 ---
-- hosts: mypc001
+# - hosts: mypc001
+#   handlers:
+#     - import_tasks: 'handlers/fedora_ws_handlers.yml'
+#   roles: []
+#     - heylazysunnykid.ws_dans
+
+- hosts: common
+  connection: local
   handlers:
     - import_tasks: 'handlers/fedora_ws_handlers.yml'
+  # tasks:
+  #   - debug:
+  #       msg: "{{ pass_ssh_git_repos }}"
   roles:
-    # - heylazysunnykid.ws_dans
-    - local_ws_dans
+    - heylazysunnykid.ws_dans

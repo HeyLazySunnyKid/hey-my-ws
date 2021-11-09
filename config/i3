@@ -215,6 +215,3 @@ for_window [class="Yad"] floating enable
 # App
 exec --no-startup-id /usr/bin/feh --bg-scale ~/Pictures/Wallpaper/wallpaper.png
 exec --no-startup-id /usr/local/bin/greenclip daemon
-{% if domain is defined %}
-exec --no-startup-id /usr/bin/linphone
-{% endif %}

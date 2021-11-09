@@ -1,0 +1,349 @@
+---
+# ANSIBLE SETTINGS: {{{
+ansible_python_interpreter: /usr/bin/python3
+# }}}
+
+# Variables from configuration files {{{
+
+pass_gpg_phrase: "{{ vault_pass_gpg_phrase }}"
+# docker_users: "{{ ansible_user_id }}" # install podman
+pass_git_repos: "{{ vault_pass_git_repos }}"
+pass_ssh_git_repos: "{{ vault_ssh_git_repos }}"
+
+# }}}
+
+# dans_repos:
+#   file:
+#     - "yum.repos.d/dans-pacur.repo"
+#     # TODO: Change release version, when update come
+#     - "yum.repos.d/virtualbox.repo"
+#     - "yum.repos.d/freerdp-nightly.repo"
+#   copr:
+#     - "flatcap/neomutt"
+#     - "atim/i3blocks"
+#     - "jdoss/slack-repo"
+#   dnf:
+#     # yamllint disable rule:line-length
+#     - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
+#     - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"  # noqa 204
+#     - "rpmsphere-release"
+#     - "slack-repo"
+#     # yamllint enable rule:line-length
+#   key:
+#     - key: "https://zoom.us/linux/download/pubkey"
+#       fingerprint: "3960 60CA DD8A 7522 0BFC B369 B903 BF18 61A7 C71D"
+
+dans_tools:
+  - name: yay
+    type: none
+    deps:
+      arch:
+        - go
+        - base-devel
+    include_tasks: yay.yml
+# Other packet managers
+  # Configure npm
+  - name: npm # Install npm package manager by system package
+
+  # Install latest npm
+  - name: npm # Update npm by npm to the latest
+    type: npm
+
+  - name: n
+    desc: node interpreter
+    type: npm
+      
+### CORE TERMINAL TOOLS: {{{
+  - name: openssh
+    config:
+      - src: ssh_config
+        dest: ~/.ssh/config
+        mode: '600'
+    include_tasks: openssh.yml
+    services: ["sshd"]
+
+  - name: ansible
+    desc: Automate configuration system
+    deps:
+      arch:
+        # All module's dependensies here, because my workstation is ansible
+        # manager host
+        - expect           # expect module
+        - python-pexpect  # expect module
+        - rsync            # synchronize module
+
+
+  - name: xorg
+    desc: 'Xorg-server'
+    deps:
+      arch:
+        - xorg-apps
+
+  - name: zip
+  - name: unzip
+
+
+## CORE GRAFICAL TOOLS ##
+  - name: gtk2
+
+  - name: i3-gaps
+    desc: 'i3 window manager'
+    deps:
+      arch:
+        - feh
+        - i3lock
+        - i3blocks
+        - rofi
+        - rofi-pass
+        # - greenclip # TODO: AUR
+    config:
+      - src: i3
+        dest: ~/.config/i3/config
+    include_tasks: i3.yml
+
+  - name: zsh
+    desc: Interactive shell
+    # deps: { dnf: [fontconfig, util-linux-user, ruby, gawk, git, xclip, fzf] }
+    deps: { arch: [fontconfig, util-linux, ruby, gawk, git, xclip, fzf] }
+    include_tasks: zsh.yml
+    config:
+      - src: zshrc
+        dest: ~/.zshrc
+      - src: zshalias
+        dest: ~/.zshalias
+      - src: zshspecalias
+        dest: ~/.zshspecalias
+      - src: p10k.zsh
+        dest: ~/.p10k.zsh
+
+  - name: neovim
+    desc: Dark powered vim editor
+    deps:
+      arch:
+        - 'xclip'
+        - 'ctags'
+      # IDE dependency (and install them in all Project venv)
+      pip3:
+        - '~jedi' # user install permission denied
+        - '~pylint'
+        - '~mypy'
+        - '~isort'
+        - '~black'
+        - '~flake8'
+        - '~python-language-server[all]'
+      npm: 'instant-markdown-d'
+    config:
+      - src: init.vim.j2
+        dest: ~/.config/nvim/init.vim
+    include_tasks: nvim.yml
+
+  - name: tmux
+    desc: Terminal windows multiplexer
+    deps: { arch: [zsh, xclip, bc] }
+    include_tasks: tmux.yml
+    config:
+      - src: tmux.conf
+        dest: ~/.tmux.conf
+
+  - name: git
+    deps: { arch: [neovim] }
+    config:
+      - src: gitconfig
+        dest: ~/.gitconfig
+      - src: gitexcludes
+        dest: ~/.gitexcludes
+
+  - name: google-chrome
+
+  - name: pass
+    desc: Ultimate KISS password manager
+    deps:
+      arch:
+        - gtk2
+        - expect
+        - python-pexpect
+        - gnupg
+        - pinentry
+        - pwgen
+        - pass-otp
+    config:
+      - src: gpg-agent.conf
+        dest: ~/.gnupg/gpg-agent.conf
+    include_tasks: pass.yml
+    services:
+      - "~dirmngr.socket"
+      # - "~gpg-agent-ssh.socket"
+      - "~gpg-agent.socket"
+
+  - name: alacritty
+    desc: A cross-platform, GPU-accelerated terminal emulator
+    deps:
+      arch:
+        - nerd-fonts-anonymous-pro
+    config:
+      - src: alacritty.yml
+        dest: ~/.config/alacritty/alacritty.yml
+
+  # Development
+  - name: direnv
+    desc: Autoload enviroment inside directory
+
+  - name: pyenv
+    desc: Set version of python environment
+
+#   - name: VirtualBox-6.1
+#     tag: virtualbox
+#     desc: 'VirtualBox and Vagrant with plugins'
+#     deps:
+#       dnf:
+#         - dkms
+#         - virtualbox-guest-additions
+#         - gcc
+#         - make
+#         - perl
+#         - kernel-devel
+#     include_tasks: virtualbox.yml
+# 
+#   - name: vagrant
+#     include_tasks: vagrant.yml
+# ### }}}
+# 
+
+### X Windows Core Enviroment (i3): {{{
+
+  - name: rofi
+    dest: 'Menu for scripts'
+    config:
+      - src: rofi
+        dest: ~/.config/rofi/config
+
+  # - name: i3blocks
+  #   desc: 'Status bar builded from blocks'
+  #   deps:
+  #     pip3:
+  #       - '~i3blocks-spotify-persist'
+  #     dnf:
+  #       - 'xkblayout-state'
+  #       - 'xmapnotify'
+  #   config:
+  #     - src: i3blocks/config.j2
+  #       dest: ~/.config/i3blocks/config
+  #     - src: i3blocks/spotify
+  #       dest: ~/.config/i3blocks/spotify
+  #   include_tasks: i3blocks.yml
+
+  - name: dunst
+    desc: 'Notification manager'
+    config:
+    - src: dunstrc
+      dest: ~/.config/dunst/dunstrc
+
+  - name: pulseaudio
+    desc: Sound system
+    deps:
+      arch:
+        - alsa
+        - pulseaudio-alsa
+        - pavucontrol
+    services: 
+      - "~pulseaudio"
+
+  # - name: heyteiler
+  #   desc: 'Screenshot and Screencast rofi tool'
+  #   deps: {arch: [ImageMagick, imgurbash2] }
+  #
+# ### }}}
+# 
+# ### GUI Apps: {{{
+#   - name: xfreerdp
+# 
+#   - name: lpf-spotify-client
+#     tag: spotify
+#     desc: 'Spotify'
+#     include_tasks: spotify.yml
+# 
+# ### }}}
+# 
+# ### GUI Tools: {{{
+#   - name: wireshark
+  - name: screenkey
+    desc: 'Gtk tool for showing pressed keys'
+  - name: gimp
+# ### }}}
+# 
+# ### Conversation: {{{
+  - name: telegram-desktop
+#   - name: "https://zoom.us/client/latest/zoom_x86_64.rpm"
+#     tag: zoom
+#   - name: slack
+#   - name: linphone
+# ### }}}
+# 
+# ### Other Tools {{{
+#   - name: '@development-tools'
+#     tag: develop
+#   - name: java-1.8.0-openjdk-devel
+#     tag: java
+# 
+  - name: ~nvchecker
+    desc: checker latest version of sources
+    type: pip3
+
+  - name: pv
+    desc: tool that show progress bars for pipes
+
+  - name: parallel
+    desc: tool that running commands in parallel
+
+  - name: jq
+    desc: tool for working with json
+# 
+#   - name: molecule
+#     desc: "Tool for test ansible roles"
+#     type: none
+#     deps:
+#       dnf:
+#         - python3-devel
+#         - virtualenv
+#         - python3-libselinux
+#     include_tasks: molecule.yml
+# 
+#   - name: pacur
+#     desc: 'Tools for build packages and repositories for all systems'
+#     type: none
+#     deps: { dnf: [golang] }
+#     tasks: pacur.yml
+# 
+#   # TODO: Change on package
+#   - name: packer
+#     desc: 'hashicorp tool for automate images build as code'
+#     type: none
+#     include_tasks: packer.yml
+# 
+# 
+  - name: markdown2confluence
+    type: npm
+# 
+#   # New
+#   - name: the_silver_searcher
+# 
+  # Language servers
+  - name: bash-language-server
+    type: npm 
+  - name: yaml-language-server
+    type: npm
+
+  - name: pyright
+    type: npm
+
+
+
+  ##
+
+# host_dans_tools: [] # this var shoud be set in host vars
+# dans_tools: "{{ fedora30_dans_tools + host_dans_tools }}"
+### }}}
+#
+
+### tmp {{{
+###}}}

@@ -42,7 +42,7 @@ zplug load
 # General
 #===============================================================================
 
-DEFAULT_USER=denis
+DEFAULT_USER=hlsk
 ENABLE_CORRECTION="false"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
